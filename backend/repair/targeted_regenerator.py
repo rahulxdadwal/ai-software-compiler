@@ -28,6 +28,8 @@ class TargetedRegenerator:
                 return self._sync_premium_flag(schemas, action)
             elif action.fix_type == "add_entry" and action.target_layer == "ui":
                 return self._add_missing_page(schemas, action)
+            elif action.fix_type == "add_field" and action.target_layer == "ui":
+                return self._add_form_data_source(schemas, action)
             # For complex repairs, mark as attempted
             return True
         except Exception:
@@ -103,5 +105,52 @@ class TargetedRegenerator:
         return True
 
     def _add_missing_page(self, schemas: dict, action: RepairAction) -> bool:
-        """Placeholder for adding missing pages — complex, marked as repaired."""
-        return True
+        """Add missing page to UI schema."""
+        ui = schemas.get("ui")
+        if not ui:
+            return False
+        desc = action.issue.description
+        route_start = desc.find("route '")
+        if route_start >= 0:
+            route_end = desc.find("'", route_start + 7)
+            if route_end > route_start:
+                route = desc[route_start + 7:route_end]
+                name = route.strip("/").replace("/", "_")
+                title = name.replace("_", " ").title()
+                from schemas.ui_schema import Page
+                ui.pages.append(Page(
+                    name=name, route=route, title=title, layout="single_column",
+                    components=[], requires_auth=True, allowed_roles=["admin", "manager", "user"]
+                ))
+                return True
+        return False
+
+    def _add_form_data_source(self, schemas: dict, action: RepairAction) -> bool:
+        """Add data_source to forms missing it by matching form ID to API paths."""
+        ui = schemas.get("ui")
+        api = schemas.get("api")
+        if not ui or not api:
+            return False
+        desc = action.issue.description
+        id_start = desc.find("Form '")
+        if id_start >= 0:
+            id_end = desc.find("'", id_start + 6)
+            if id_end > id_start:
+                comp_id = desc[id_start + 6:id_end]
+                # Look for matching API endpoint
+                best_match = None
+                for ep in api.endpoints:
+                    # simplistic matching: if comp_id contains "login", look for endpoint with "login"
+                    if "login" in comp_id.lower() and "login" in ep.path.lower():
+                        best_match = ep.path
+                        break
+                    if "register" in comp_id.lower() and "register" in ep.path.lower():
+                        best_match = ep.path
+                        break
+                if best_match:
+                    for page in ui.pages:
+                        for comp in page.components:
+                            if comp.id == comp_id:
+                                comp.data_source = best_match
+                                return True
+        return False

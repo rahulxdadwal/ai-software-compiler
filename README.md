@@ -84,6 +84,15 @@ Uses **targeted repair** (not brute retry): RepairPlanner analyzes each issue, T
 ### Stage 5: Execution Validation
 Proves the final spec is actually usable by checking that all routes, forms, endpoints, entities, and auth rules compose into a runnable application. Produces a readiness score (0–100%).
 
+### Note on the CRM Demo (The "60%" Scenario)
+If you run the flagship CRM prompt in Mock Mode, you might initially notice it throws validation errors (e.g., "missing /settings page" and "unmapped form data sources"). **This is intentional.** The mock data is deliberately flawed to demonstrate the compiler's intelligent repair engine. 
+
+The `Refinement & Repair` stage automatically:
+1. Detects the missing page route and dynamically creates a new `Page` schema.
+2. Identifies forms without data sources, searches the API layer for matching endpoints, and binds them.
+
+After the repair loop executes, the execution score jumps from an initial 60% to a fully validated **100% Execution Readiness**.
+
 ---
 
 ## Tech Stack

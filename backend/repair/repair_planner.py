@@ -39,6 +39,8 @@ class RepairPlanner:
         desc = issue.description.lower()
         if "no matching api request field" in desc:
             return RepairAction(issue, "api", "add_field", f"Add missing API field: {issue.description}")
+        elif "missing a data_source" in desc:
+            return RepairAction(issue, "ui", "add_field", f"Add missing data_source: {issue.description}")
         elif "no matching db table" in desc:
             return RepairAction(issue, "db", "add_entry", f"Add missing DB table: {issue.description}")
         elif "no auth route_access" in desc:

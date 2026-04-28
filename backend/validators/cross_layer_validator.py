@@ -25,7 +25,7 @@ class CrossLayerValidator:
         return issues
 
     def _check_ui_api_mapping(self, ui: UISchema, api: APISchema) -> list[ValidationIssue]:
-        """Every UI form field should map to an API request field."""
+        """Every UI form field should map to an API request field, and forms must have data_sources."""
         issues = []
         api_fields_by_endpoint: dict[str, set[str]] = {}
         for ep in api.endpoints:
@@ -34,21 +34,30 @@ class CrossLayerValidator:
 
         for page in ui.pages:
             for comp in page.components:
-                if comp.type.value == "form" and comp.data_source:
-                    api_fields = set()
-                    for path, fields in api_fields_by_endpoint.items():
-                        if path in (comp.data_source or ""):
-                            api_fields = fields
-                            break
-                    for field in comp.fields:
-                        if api_fields and field.name not in api_fields:
-                            issues.append(ValidationIssue(
-                                issue_type="consistency",
-                                layer="cross_layer",
-                                location=f"UI.{page.name}.{comp.id}.{field.name}",
-                                description=f"Form field '{field.name}' has no matching API request field in {comp.data_source}",
-                                severity="warning",
-                            ))
+                if comp.type.value == "form":
+                    if not comp.data_source:
+                        issues.append(ValidationIssue(
+                            issue_type="consistency",
+                            layer="ui",
+                            location=f"UI.{page.name}.{comp.id}",
+                            description=f"Form '{comp.id}' is missing a data_source",
+                            severity="error",
+                        ))
+                    else:
+                        api_fields = set()
+                        for path, fields in api_fields_by_endpoint.items():
+                            if path in comp.data_source:
+                                api_fields = fields
+                                break
+                        for field in comp.fields:
+                            if api_fields and field.name not in api_fields:
+                                issues.append(ValidationIssue(
+                                    issue_type="consistency",
+                                    layer="cross_layer",
+                                    location=f"UI.{page.name}.{comp.id}.{field.name}",
+                                    description=f"Form field '{field.name}' has no matching API request field in {comp.data_source}",
+                                    severity="warning",
+                                ))
         return issues
 
     def _check_api_db_mapping(self, api: APISchema, db: DBSchema) -> list[ValidationIssue]:
