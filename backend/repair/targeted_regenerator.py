@@ -117,8 +117,8 @@ class TargetedRegenerator:
                 route = desc[route_start + 7:route_end]
                 name = route.strip("/").replace("/", "_")
                 title = name.replace("_", " ").title()
-                from schemas.ui_schema import Page
-                ui.pages.append(Page(
+                from schemas.ui_schema import UIPage
+                ui.pages.append(UIPage(
                     name=name, route=route, title=title, layout="single_column",
                     components=[], requires_auth=True, allowed_roles=["admin", "manager", "user"]
                 ))
