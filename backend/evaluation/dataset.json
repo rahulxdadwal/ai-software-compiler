@@ -1,0 +1,24 @@
+{
+  "prompts": [
+    {"id": "realistic_01", "category": "realistic", "title": "CRM Platform", "prompt": "Build a CRM with login, contacts, dashboard, role-based access, and premium plan with payments. Admins can see analytics."},
+    {"id": "realistic_02", "category": "realistic", "title": "E-Commerce Store", "prompt": "Create an online store with product listings, shopping cart, checkout with Stripe, admin panel for inventory management, customer reviews, and order tracking."},
+    {"id": "realistic_03", "category": "realistic", "title": "LMS", "prompt": "Build a learning management system with courses, quizzes, student progress tracking, instructor dashboard, certificate generation, and discussion forums."},
+    {"id": "realistic_04", "category": "realistic", "title": "Project Manager", "prompt": "Build a project management tool with teams, tasks, kanban boards, file uploads, notifications, and time tracking. Managers can assign tasks and view reports."},
+    {"id": "realistic_05", "category": "realistic", "title": "Healthcare Portal", "prompt": "Build a patient portal with appointment booking, medical records, prescriptions, doctor profiles, messaging, and billing. Doctors and patients have different views."},
+    {"id": "realistic_06", "category": "realistic", "title": "Social Platform", "prompt": "Create a social media platform with user profiles, posts, comments, likes, followers, messaging, and content moderation for admins."},
+    {"id": "realistic_07", "category": "realistic", "title": "HR System", "prompt": "Build an HR management system with employee profiles, leave management, payroll, performance reviews, and recruitment pipeline. HR admins manage everything."},
+    {"id": "realistic_08", "category": "realistic", "title": "Restaurant POS", "prompt": "Create a restaurant point-of-sale system with menu management, order taking, kitchen display, payments, and daily sales reports. Waiters and managers have different access."},
+    {"id": "realistic_09", "category": "realistic", "title": "Real Estate", "prompt": "Build a real estate listing platform with property listings, search filters, virtual tour scheduling, agent profiles, and inquiry management."},
+    {"id": "realistic_10", "category": "realistic", "title": "Event Platform", "prompt": "Create an event management platform with event creation, ticketing, attendee management, speaker profiles, schedule builder, and check-in system."},
+    {"id": "edge_01", "category": "edge_case", "title": "Vague Prompt", "prompt": "Make me an app for managing stuff"},
+    {"id": "edge_02", "category": "edge_case", "title": "Conflicting Requirements", "prompt": "Build a free app with premium features. All users should have admin access but restrict sensitive data to admins only."},
+    {"id": "edge_03", "category": "edge_case", "title": "Incomplete Spec", "prompt": "I need a dashboard"},
+    {"id": "edge_04", "category": "edge_case", "title": "Role Ambiguity", "prompt": "Build a school system where teachers and students can grade assignments and manage classes."},
+    {"id": "edge_05", "category": "edge_case", "title": "Monetization Ambiguity", "prompt": "Build a SaaS tool with a free tier and enterprise features but make everything available to everyone."},
+    {"id": "edge_06", "category": "edge_case", "title": "Missing Auth", "prompt": "Build a blog platform with posts, comments, and admin panel."},
+    {"id": "edge_07", "category": "edge_case", "title": "Single Word", "prompt": "CRM"},
+    {"id": "edge_08", "category": "edge_case", "title": "Contradictory Roles", "prompt": "Build an app where guests can delete user accounts and admins can only read content."},
+    {"id": "edge_09", "category": "edge_case", "title": "Over-specified", "prompt": "Build an app with exactly 47 pages, 200 API endpoints, 15 database tables, and support for 8 user roles with 150 different permissions. Include machine learning, blockchain, and quantum computing integration."},
+    {"id": "edge_10", "category": "edge_case", "title": "Empty-ish", "prompt": "Build something cool with some features and maybe users"}
+  ]
+}
