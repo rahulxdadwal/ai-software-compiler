@@ -122,12 +122,12 @@ export default function Home() {
             ) : (
               <div className="validation-list">
                 {issues.map((issue, i) => (
-                  <div key={i} className={`validation-item ${issue.repaired ? "pass" : issue.severity === "warning" ? "warn" : "fail"}`}>
-                    <span className="validation-icon">{issue.repaired ? "🔧" : issue.severity === "warning" ? "⚠️" : "❌"}</span>
+                  <div key={i} className={`validation-item ${!!issue.repaired ? "pass" : issue.severity === "warning" ? "warn" : "fail"}`}>
+                    <span className="validation-icon">{!!issue.repaired ? "🔧" : issue.severity === "warning" ? "⚠️" : "❌"}</span>
                     <div>
                       <div>{String(issue.description)}</div>
                       <div className="location">{String(issue.location)}</div>
-                      {issue.repair_action && <div style={{ fontSize: 11, color: "var(--success)", marginTop: 4 }}>Repair: {String(issue.repair_action)}</div>}
+                      {!!issue.repair_action && <div style={{ fontSize: 11, color: "var(--success)", marginTop: 4 }}>Repair: {String(issue.repair_action)}</div>}
                     </div>
                   </div>
                 ))}
